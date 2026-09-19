@@ -2,7 +2,7 @@
 
 a tiny heartbeat that keeps your discord bot online from your own machines. no server, no hosting, no bot process running anywhere.
 
-most discord bots live on a vps that never sleeps, so presence is trivial. but some bots have no home at all: bots driven by an ai assistant (like muse) through the discord rest api, where no code runs on a schedule and nothing holds a connection open. this is the pulse for a bot like that.
+most discord bots live on a vps that never sleeps, so presence is trivial. but some bots have no home at all: bots driven by an ai assistant (like [muse](https://muse.ai)) through the discord rest api, where no code runs on a schedule and nothing holds a connection open. this is the pulse for a bot like that.
 
 run it on your laptop, your desktop, or both. while a machine is awake and you're logged in, the bot shows online. when every machine sleeps, it goes offline by itself.
 
