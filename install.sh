@@ -1,9 +1,9 @@
 #!/bin/sh
-# Installs discord-heartbeat on macOS: copies the script into
-# ~/.discord-heartbeat and registers a LaunchAgent that starts it at login
+# installs discord-heartbeat on macos: copies the script into
+# ~/.discord-heartbeat and registers a launchagent that starts it at login
 # and keeps it alive.
 #
-# Usage:
+# usage:
 #   ./install.sh                 # single machine (no sharding)
 #   ./install.sh 0 2             # multi-machine: this is shard 0 of 2
 #   ./install.sh 1 2             # multi-machine: this is shard 1 of 2
@@ -57,19 +57,19 @@ $ENV_BLOCK
 </plist>
 EOF
 
-# Python dependency
+# python dependency
 if ! python3 -c "import websockets" 2>/dev/null; then
-  echo "Installing the 'websockets' package..."
+  echo "installing the 'websockets' package..."
   python3 -m pip install --user websockets
 fi
 
-# (Re)load the agent
+# (re)load the agent
 launchctl bootout "gui/$(id -u)/$LABEL" 2>/dev/null || true
 launchctl bootstrap "gui/$(id -u)" "$PLIST"
 launchctl kickstart "gui/$(id -u)/$LABEL"
 
 echo ""
-echo "Installed. The heartbeat starts at every login."
-echo "Next: put your bot token in $DIR/token"
+echo "installed. the heartbeat starts at every login."
+echo "next: put your bot token in $DIR/token"
 echo "  printf '%s' 'YOUR_BOT_TOKEN' > \"$DIR/token\" && chmod 600 \"$DIR/token\""
-echo "It picks the token up automatically within a minute."
+echo "it picks the token up automatically within a minute."
