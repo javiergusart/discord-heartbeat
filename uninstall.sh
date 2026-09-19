@@ -1,5 +1,5 @@
 #!/bin/sh
-# Removes discord-heartbeat from macOS: unloads the LaunchAgent and deletes
+# removes discord-heartbeat from macos: unloads the launchagent and deletes
 # ~/.discord-heartbeat (including the token file and logs).
 set -e
 
@@ -10,4 +10,4 @@ launchctl bootout "gui/$(id -u)/$LABEL" 2>/dev/null || true
 rm -f "$HOME/Library/LaunchAgents/$LABEL.plist"
 rm -rf "$DIR"
 
-echo "Uninstalled. No traces left."
+echo "uninstalled. no traces left."
