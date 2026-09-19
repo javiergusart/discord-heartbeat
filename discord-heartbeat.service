@@ -1,0 +1,15 @@
+[Unit]
+Description=discord-heartbeat: keep a Discord bot online while this machine is up
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 %h/.discord-heartbeat/heartbeat.py
+Restart=always
+RestartSec=5
+# Uncomment and set for multi-machine sharding:
+# Environment=HEARTBEAT_SHARD_ID=0
+# Environment=HEARTBEAT_SHARD_COUNT=2
+
+[Install]
+WantedBy=default.target

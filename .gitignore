@@ -1,0 +1,4 @@
+# Never commit a token or logs.
+token
+*.log
+__pycache__/
