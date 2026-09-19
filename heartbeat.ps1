@@ -1,17 +1,17 @@
-# discord-heartbeat (Windows).
-# A tiny heartbeat that holds a Discord gateway connection open so your bot
-# appears online whenever this PC is awake and you're logged in.
-# Auto-reconnects forever. No server, no hosting, pure .NET (no installs).
+# discord-heartbeat (windows).
+# a tiny heartbeat that holds a discord gateway connection open so your bot
+# appears online whenever this pc is awake and you're logged in.
+# auto-reconnects forever. no server, no hosting, pure .net (no installs).
 #
-# It exists for bots with no home: bots driven by an AI assistant (like Muse)
-# through the Discord REST API, where there is no bot process running
-# anywhere to hold presence. This script is the pulse.
+# it exists for bots with no home: bots driven by an ai assistant (like muse)
+# through the discord rest api, where there is no bot process running
+# anywhere to hold presence. this script is the pulse.
 #
-# Token: $env:USERPROFILE\.discord-heartbeat\token  (or $env:DISCORD_BOT_TOKEN)
-# Logs:  $env:USERPROFILE\.discord-heartbeat\keeper.log
+# token: $env:USERPROFILE\.discord-heartbeat\token  (or $env:DISCORD_BOT_TOKEN)
+# logs:  $env:USERPROFILE\.discord-heartbeat\keeper.log
 #
-# Multiple machines: give each machine its own shard so their sessions never
-# fight. Set $env:HEARTBEAT_SHARD_ID and $env:HEARTBEAT_SHARD_COUNT.
+# multiple machines: give each machine its own shard so their sessions never
+# fight. set $env:HEARTBEAT_SHARD_ID and $env:HEARTBEAT_SHARD_COUNT.
 
 $ErrorActionPreference = "Stop"
 $base = Join-Path $env:USERPROFILE ".discord-heartbeat"
@@ -47,7 +47,7 @@ function Send-WsJson($ws, $obj) {
 }
 
 function Read-WsHello($ws, $seg, $buf) {
-    # Single outstanding receive for the hello frame (tiny, one frame).
+    # single outstanding receive for the hello frame (tiny, one frame).
     $ct = [System.Threading.CancellationToken]::None
     $task = $ws.ReceiveAsync($seg, $ct)
     if (-not $task.Wait(15000)) { throw "no hello from gateway" }
@@ -91,7 +91,7 @@ while ($true) {
             presence = @{ status = "online"; afk = $false; activities = @(); since = 0 }
         }
         if ($shardCount -gt 1) {
-            # Distinct shards let several machines hold sessions at once.
+            # distinct shards let several machines hold sessions at once.
             $d.shard = @($shardId, $shardCount)
         }
         Send-WsJson $ws @{ op = 2; d = $d }
@@ -99,9 +99,9 @@ while ($true) {
         $nextBeat = [DateTime]::UtcNow.AddMilliseconds($interval)
         Write-KeeperLog "connected; heartbeat every ${interval}ms"
 
-        # One outstanding ReceiveAsync at a time: keep the same task pending
+        # one outstanding ReceiveAsync at a time: keep the same task pending
         # across loop iterations; only start a new one after it completes.
-        # (Two overlapping receives throw InvalidOperationException.)
+        # (two overlapping receives throw InvalidOperationException.)
         $sb = New-Object System.Text.StringBuilder
         $recvTask = $ws.ReceiveAsync($seg, $ct)
         while ($ws.State -eq [System.Net.WebSockets.WebSocketState]::Open) {
