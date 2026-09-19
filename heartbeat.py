@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-"""discord-heartbeat (macOS / Linux).
+"""discord-heartbeat (macos / linux).
 
-A tiny heartbeat that holds a Discord gateway connection open so your bot
+a tiny heartbeat that holds a discord gateway connection open so your bot
 appears online whenever this machine is awake and you're logged in.
-Auto-reconnects forever. No server, no hosting, no dependencies beyond
+auto-reconnects forever. no server, no hosting, no dependencies beyond
 the `websockets` package.
 
-It exists for bots with no home: bots driven by an AI assistant (like Muse)
-through the Discord REST API, where there is no bot process running
-anywhere to hold presence. This script is the pulse.
+it exists for bots with no home: bots driven by an ai assistant (like muse)
+through the discord rest api, where there is no bot process running
+anywhere to hold presence. this script is the pulse.
 
-Token: ~/.discord-heartbeat/token (chmod 600), or DISCORD_BOT_TOKEN env var.
-Logs:  ~/.discord-heartbeat/keeper.log
+token: ~/.discord-heartbeat/token (chmod 600), or DISCORD_BOT_TOKEN env var.
+logs:  ~/.discord-heartbeat/keeper.log
 
-Multiple machines: give each machine its own shard so their sessions never
-fight. See HEARTBEAT_SHARD_ID / HEARTBEAT_SHARD_COUNT below.
+multiple machines: give each machine its own shard so their sessions never
+fight. see HEARTBEAT_SHARD_ID / HEARTBEAT_SHARD_COUNT below.
 """
 import asyncio
 import json
@@ -85,7 +85,7 @@ async def run_once(token):
             },
         }
         if SHARD_COUNT > 1:
-            # Distinct shards let several machines hold sessions at once.
+            # distinct shards let several machines hold sessions at once.
             identify["d"]["shard"] = [SHARD_ID, SHARD_COUNT]
         await ws.send(json.dumps(identify))
         seq = None
