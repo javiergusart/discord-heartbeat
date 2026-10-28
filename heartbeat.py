@@ -66,9 +66,13 @@ def get_token():
 async def run_once(token):
     import websockets
 
-    async with await asyncio.wait_for(
+    # Await the connect and close explicitly: WebSocketClientProtocol is not
+    # an async context manager in websockets 10.x (Debian python3-websockets),
+    # so `async with await connect(...)` fails there immediately.
+    ws = await asyncio.wait_for(
         websockets.connect(GATEWAY, max_size=4 * 1024 * 1024), timeout=20
-    ) as ws:
+    )
+    try:
         hello = json.loads(await asyncio.wait_for(ws.recv(), timeout=15))
         interval = hello["d"]["heartbeat_interval"] / 1000
         identify = {
@@ -112,6 +116,8 @@ async def run_once(token):
                     raise RuntimeError("server asked to reconnect")
         finally:
             hb.cancel()
+    finally:
+        await ws.close()
 
 
 async def main():
