@@ -22,7 +22,11 @@ import os
 import sys
 from datetime import datetime
 
-BASE = os.path.join(os.path.expanduser("~"), ".discord-heartbeat")
+# HEARTBEAT_BASE lets a second instance (another bot) use its own folder.
+BASE = os.environ.get(
+    "HEARTBEAT_BASE",
+    os.path.join(os.path.expanduser("~"), ".discord-heartbeat"),
+)
 TOKEN_FILE = os.path.join(BASE, "token")
 LOG_FILE = os.path.join(BASE, "keeper.log")
 GATEWAY = "wss://gateway.discord.gg/?v=10&encoding=json"
